@@ -1,5 +1,4 @@
 explicaciones-ignorado.txt
-/build
 .dockerignore
 Dockerfile
 fly.toml

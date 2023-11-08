@@ -1,0 +1,6 @@
+explicaciones.ignorado.txt
+/build
+.dockerignore
+Dockerfile
+fly.toml
+"exercises 3.code-workspace"

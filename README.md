@@ -7,3 +7,5 @@
 1. `npm install`
 
 2. `npm run dev`
+
+3. Open in the browser: 'localhost:3001'

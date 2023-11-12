@@ -11,20 +11,20 @@ const person = new Person({
   number: newNumber
 })
 
-if(process.argv.length > 3) {
-  person.save().then(result => {
-    console.log(`added ${newName} ${newNumber} to phonebook`)
-    mongoose.connection.close()
-  })
-}
+// if(process.argv.length > 3) {
+//   person.save().then(result => {
+//     console.log(`added ${newName} ${newNumber} to phonebook`)
+//     mongoose.connection.close()
+//   })
+// }
 
-if(process.argv.length === 3) {
- Person.find()
-  .then(person => {
-    console.log('Phonebook: ')
-    person.forEach(p => {
-      console.log(`${p.name} ${p.number}`)
-    })    
-    mongoose.connection.close()
-  })
-}
+// if(process.argv.length === 3) {
+//  Person.find()
+//   .then(person => {
+//     console.log('Phonebook: ')
+//     person.forEach(p => {
+//       console.log(`${p.name} ${p.number}`)
+//     })    
+//     mongoose.connection.close()
+//   })
+// }

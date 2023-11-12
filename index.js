@@ -13,12 +13,10 @@ const morgan = require('morgan')
 // app.use(morgan('tiny'))
 morgan.token('body', function (req, res) { return JSON.stringify(req.body) })
 
-const Person = require('./models/person')
-
 //se crea el modelo que sigue al esquema, la convencion es hacerlo en singular, ya que mongoose automaticamente nombra la coleccion como el plural del modelo, en este caso "people"
 // los modelos tambien se llaman funciones constructor que crean objetos js basandose en los parametros dados.
-// const Person = mongoose.model('Person', personSchema)
-// 
+const Person = require('./models/person')
+
 
 app.use(morgan(function (tokens, req, res) {
  
@@ -58,11 +56,12 @@ let persons =
 ];
 
 
-app.get('/api/persons', (req, res) => {
-  // res.json(persons)
-  Person.find().then(person => {
-    res.json(person)
-  })
+app.get('/api/persons', (req, res) => {  
+  Person
+    .find()
+    .then(person => {
+      res.json(person)
+    })
 })
 
 app.get('/info', (req, res) => {
@@ -90,26 +89,31 @@ app.delete("/api/persons/:id", (req, res) => {
 
 app.post("/api/persons/", (req, res) => {
 
-  const newPerson = {
-    'id': Math.floor(Math.random()*1000),
-    'name': req.body.name,
-    'number': req.body.number
-  }
+  const newPerson = new Person({
+    name: req.body.name,
+    number: req.body.number
+  })
   
-  if(req.body.name !== '' && req.body.number !== '') {
-    if(persons.map(person => person.name).includes(req.body.name)) {
-      res.status(400).json({error: "Name must be unique"})
-      return;
-    } 
-    res.status(201).json(newPerson);
-    persons = persons.concat(newPerson);         
-  } else  {
-    res.status(400).json({error: "no name or number present"});
-  }
+  newPerson
+    .save()
+    .then(result => {
+      console.log('new person saved')  
+      res.json(newPerson);
+    })
+    .catch(error => {
+      console.log('error, could not save new person', error)
+    })
+  // if(req.body.name !== '' && req.body.number !== '') {
+  //   if(persons.map(person => person.name).includes(req.body.name)) {
+  //     res.status(400).json({error: "Name must be unique"})
+  //     return;
+  //   } 
+  //   res.status(201).json(newPerson);
+  //   persons = persons.concat(newPerson);         
+  // } else  {
+  //   res.status(400).json({error: "no name or number present"});
+  // }
 })
-
-//For both Fly.io and Render, we need to change the definition of the port our application uses at the bottom of the index.js file in the backend like so:
-//Now we are using the port defined in the environment variable PORT or port 3001 if the environment variable PORT is undefined. Fly.io and Render configure the application port based on that environment variable.
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {

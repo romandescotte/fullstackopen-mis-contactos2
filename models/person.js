@@ -2,9 +2,6 @@ const mongoose = require('mongoose');
 
 mongoose.set('strictQuery', false)
 
-// const password = process.argv[2]
-
-
 //el nombre de la db figura aca
 const uri = process.env.MONGODB_URI
 
@@ -35,4 +32,4 @@ personSchema.set('toJSON', {
   }
 })
 
-module.exports= mongoose.model('Person', personSchema)
+module.exports= mongoose.model('Person', personSchema);

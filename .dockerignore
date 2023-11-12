@@ -1,4 +1,5 @@
 explicaciones-ignorado.txt
+.dockerignore
 Dockerfile
 fly.toml
 exercises 3.code-workspace

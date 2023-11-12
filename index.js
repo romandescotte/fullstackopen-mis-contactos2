@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const express = require('express')
 
 const app = express()
@@ -11,35 +13,12 @@ const morgan = require('morgan')
 // app.use(morgan('tiny'))
 morgan.token('body', function (req, res) { return JSON.stringify(req.body) })
 
-const password = process.argv[2]
-const mongoose = require('mongoose');
-
-//el nombre de la db figura aca
-const uri = `mongodb+srv://rouman:${password}@cluster0.w7ocrxy.mongodb.net/phonebookApp?retryWrites=true&w=majority`
-mongoose.set('strictQuery', false)
-mongoose.connect(uri)
-
-//se crea el esquema
-const personSchema = new mongoose.Schema({
-  id: Number,
-  name: String,
-  number: String
-})
-// se tranforma el id a string, se saca el _id de la respuesta json
-personSchema.set('toJSON', {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString()
-    delete returnedObject._id
-    delete returnedObject.__v
-  }
-})
+const Person = require('./models/person')
 
 //se crea el modelo que sigue al esquema, la convencion es hacerlo en singular, ya que mongoose automaticamente nombra la coleccion como el plural del modelo, en este caso "people"
 // los modelos tambien se llaman funciones constructor que crean objetos js basandose en los parametros dados.
 // const Person = mongoose.model('Person', personSchema)
-const Person = mongoose.model('Person', personSchema)
-
-
+// 
 
 app.use(morgan(function (tokens, req, res) {
  
@@ -132,7 +111,7 @@ app.post("/api/persons/", (req, res) => {
 //For both Fly.io and Render, we need to change the definition of the port our application uses at the bottom of the index.js file in the backend like so:
 //Now we are using the port defined in the environment variable PORT or port 3001 if the environment variable PORT is undefined. Fly.io and Render configure the application port based on that environment variable.
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })

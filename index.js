@@ -2,15 +2,43 @@ const express = require('express')
 
 const app = express()
 app.use(express.json())
+app.use(express.static('build'))
 
 const cors = require('cors')
 app.use(cors())
 
-app.use(express.static('build'))
-
 const morgan = require('morgan')
 // app.use(morgan('tiny'))
 morgan.token('body', function (req, res) { return JSON.stringify(req.body) })
+
+const password = process.argv[2]
+const mongoose = require('mongoose');
+
+//el nombre de la db figura aca
+const uri = `mongodb+srv://rouman:${password}@cluster0.w7ocrxy.mongodb.net/phonebookApp?retryWrites=true&w=majority`
+mongoose.set('strictQuery', false)
+mongoose.connect(uri)
+
+//se crea el esquema
+const personSchema = new mongoose.Schema({
+  id: Number,
+  name: String,
+  number: String
+})
+// se tranforma el id a string, se saca el _id de la respuesta json
+personSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
+  }
+})
+
+//se crea el modelo que sigue al esquema, la convencion es hacerlo en singular, ya que mongoose automaticamente nombra la coleccion como el plural del modelo, en este caso "people"
+// los modelos tambien se llaman funciones constructor que crean objetos js basandose en los parametros dados.
+// const Person = mongoose.model('Person', personSchema)
+const Person = mongoose.model('Person', personSchema)
+
 
 
 app.use(morgan(function (tokens, req, res) {
@@ -52,7 +80,10 @@ let persons =
 
 
 app.get('/api/persons', (req, res) => {
-  res.json(persons)
+  // res.json(persons)
+  Person.find().then(person => {
+    res.json(person)
+  })
 })
 
 app.get('/info', (req, res) => {

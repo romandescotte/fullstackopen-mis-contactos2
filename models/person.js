@@ -7,11 +7,23 @@ const uri = process.env.MONGODB_URI
 
 console.log('Connecting to', uri)
 
+let intervalId;
+
+if(!intervalId) {
+  intervalId = setInterval(() => {
+    console.log(".")
+  }, 1000);  
+}
+
 mongoose.connect(uri)
   .then(result => {
-    console.log('connected to MongoDB')
+    clearInterval(intervalId)
+    intervalId = null
+    console.log('Succesfully connected to MongoDB ! ! !')
   })
   .catch(error => {
+    clearInterval(intervalId)
+    intervalId = null
     console.log('error conecting to MongoDB', error.message)
   })
 

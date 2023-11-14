@@ -5,3 +5,4 @@ fly.toml
 exercises 3.code-workspace
 /node_modules
 .env
+/frontend

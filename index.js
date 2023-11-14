@@ -75,7 +75,7 @@ app.delete("/api/persons/:id", (req, res, next) => {
           error: "ID not found"
         })        
       } else {        
-        res.status(204)
+        res.status(204).end()
       }            
     })
     .catch(error => {

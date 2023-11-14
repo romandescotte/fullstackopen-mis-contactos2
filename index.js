@@ -18,8 +18,7 @@ const Person = require('./models/person')
 
 morgan.token('body', function (req, res) { return JSON.stringify(req.body) })
 
-app.use(morgan(function (tokens, req, res) {
- 
+app.use(morgan(function (tokens, req, res) { 
   return [          
     tokens.method(req, res),
     tokens.url(req, res),
@@ -121,12 +120,12 @@ app.post("/api/persons/", (req, res, next) => {
 
 app.put("/api/persons/:id", (req, res, next) => {
 
-  const person = {
-    name: req.body.name,
-    number: req.body.number
-  }
+  const {name, number} = req.body
 
-  Person.findByIdAndUpdate(req.params.id, person, { new: true})
+  Person.findByIdAndUpdate(
+    req.params.id,
+    { name, number }, 
+    { new: true, runValidators: true, context: 'query'})
     .then(updatedPerson => {
       res.json(updatedPerson)
     })
@@ -138,6 +137,13 @@ const errorHandler = (error, request, response, next) => {
 
   if(error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id'}) 
+  }
+  if(error.name === 'ValidationError') {
+    return response.status(400).json(
+      {
+        error: error.message
+      }
+    )
   }
   next(error)
 }

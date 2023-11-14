@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 mongoose.set('strictQuery', false)
 
 //el nombre de la db figura aca
+// en local el backend utiliza el archivo .env
+// en produccion (fly.io) se paso la uri mediante el comando fly secrets
 const uri = process.env.MONGODB_URI
 
 console.log('Connecting to', uri)
@@ -30,7 +32,11 @@ mongoose.connect(uri)
 //se crea el esquema
 const personSchema = new mongoose.Schema({
   id: Number,
-  name: String,
+  name: {
+    type: String,
+    minLength: 3,
+    required: true
+  },  
   number: String
 })
 

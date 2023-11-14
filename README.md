@@ -1,11 +1,12 @@
 # fullstackopen-mis-contactos2
 
-## Go to SPA from exercise 3.11: [https://mis-contactos2.fly.dev/](https://mis-contactos2.fly.dev/)
+## Go to SPA of Part 3: [https://mis-contactos2.fly.dev/](https://mis-contactos2.fly.dev/)
 
-### Run in development:
 
-1. `npm install`
+### Create build and run in dev (with remote database)
 
-2. `npm run dev`
+`npm install`: installs npm's packages from backend in root directory.
 
-3. Open in the browser: 'localhost:3001'
+`cd frontend && npm install`: installs npm's packages from frontend in ./frontend
+
+`npm run build:ui:run` (from root directory) : creates a new build a run it in development mode.

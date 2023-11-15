@@ -103,10 +103,10 @@ app.post("/api/persons/", (req, res, next) => {
         newPerson
           .save()
           .then(result => {
-            console.log('new person saved')  
+            console.log('New person saved')  
             res.status(201).json(newPerson);
           })
-          .catch(error => {
+          .catch(error => {            
             next(error)
           }) 
       })        
@@ -144,7 +144,9 @@ const errorHandler = (error, request, response, next) => {
         error: error.message
       }
     )
-  }
+  } 
+  
+
   next(error)
 }
 

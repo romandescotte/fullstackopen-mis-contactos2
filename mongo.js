@@ -1,15 +1,15 @@
-if(process.argv.length < 3) {
-  console.log('give password as argument')
-  process.exit(1)
-}
+// if(process.argv.length < 3) {
+//   console.log('give password as argument')
+//   process.exit(1)
+// }
 
-const newName = process.argv[3]
-const newNumber = process.argv[4]
+// const newName = process.argv[3]
+// const newNumber = process.argv[4]
 
-const person = new Person({ 
-  name: newName,
-  number: newNumber
-})
+// const person = new Person({
+//   name: newName,
+//   number: newNumber
+// })
 
 // if(process.argv.length > 3) {
 //   person.save().then(result => {
@@ -24,7 +24,7 @@ const person = new Person({
 //     console.log('Phonebook: ')
 //     person.forEach(p => {
 //       console.log(`${p.name} ${p.number}`)
-//     })    
+//     })
 //     mongoose.connection.close()
 //   })
 // }
